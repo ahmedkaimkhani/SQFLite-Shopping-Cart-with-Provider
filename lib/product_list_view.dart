@@ -32,10 +32,10 @@ class _ProductListScreenState extends State<ProductListScreen> {
     'https://image.shutterstock.com/image-photo/mango-isolated-on-white-background-600w-610892249.jpg',
     'https://image.shutterstock.com/image-photo/orange-fruit-slices-leaves-isolated-600w-1386912362.jpg',
     'https://image.shutterstock.com/image-photo/green-grape-leaves-isolated-on-600w-533487490.jpg',
-    'https://media.istockphoto.com/photos/banana-picture-id1184345169?s=612x612',
-    'https://media.istockphoto.com/photos/cherry-trio-with-stem-and-leaf-picture-id157428769?s=612x612',
-    'https://media.istockphoto.com/photos/single-whole-peach-fruit-with-leaf-and-slice-isolated-on-white-picture-id1151868959?s=612x612',
-    'https://media.istockphoto.com/photos/fruit-background-picture-id529664572?s=612x612',
+    'https://media.istockphoto.com/id/173242750/photo/banana-bunch.jpg?s=612x612&w=0&k=20&c=MAc8AXVz5KxwWeEmh75WwH6j_HouRczBFAhulLAtRUU=',
+    'https://media.istockphoto.com/id/533381303/photo/cherry-with-leaves-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=6BV79sui5Hc6lj555eV_ePiGlKfdZveIG9B5hIWidug=',
+    'https://img.freepik.com/premium-photo/peaches-isolated-ripe-sweet-peach-slice_531456-684.jpg',
+    'https://i.pinimg.com/originals/0d/88/62/0d88626a422b24ea390e7c4eea6d1ecd.png',
   ];
 
   @override
@@ -63,6 +63,74 @@ class _ProductListScreenState extends State<ProductListScreen> {
           SizedBox(
             width: 20,
           )
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+                itemCount: productName.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Image(
+                              height: 100,
+                              width: 100,
+                              image:
+                                  NetworkImage(productImage[index].toString())),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                productName[index],
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 16),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                productUnit[index].toString() +
+                                    " " +
+                                    r"$" +
+                                    productPrice[index].toString(),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 16),
+                              ),
+                            ],
+                          ),
+                          const Spacer(),
+                          Container(
+                            height: 35,
+                            width: 100,
+                            decoration: BoxDecoration(
+                                color: Colors.deepPurple,
+                                borderRadius: BorderRadius.circular(5)),
+                            child: const Center(
+                              child: Text(
+                                'Add to cart',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ));
+                }),
+          ),
         ],
       ),
     );
