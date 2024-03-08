@@ -26,4 +26,10 @@ class DBHelper {
     await db.execute(
         'CREATE TABLE cart (id INTEGER PRIMARY KEY , productId VARCHAR UNIQUE,productName TEXT,initialPrice INTEGER, productPrice INTEGER , quantity INTEGER, unitTag TEXT , image TEXT )');
   }
+
+  Future<Cart> insert(Cart cart) async {
+    var dbClient = await db;
+    await dbClient!.insert('cart', cart.toMap());
+    return cart;
+  }
 }
