@@ -11,5 +11,19 @@ class DBHelper {
     if (_db != null) {
       return _db;
     }
+
+    _db = await initDatabase();
+  }
+
+  initDatabase() async {
+    Directory documentDirectory = await getApplicationCacheDirectory();
+    String path = join(documentDirectory.path, 'cart.db');
+    var db = await openDatabase(path, version: 1, onCreate: _onCeate);
+    return db;
+  }
+
+  Future _onCeate(Database db, int version) async {
+    await db.execute(
+        'CREATE TABLE cart (id INTEGER PRIMARY KEY , productId VARCHAR UNIQUE,productName TEXT,initialPrice INTEGER, productPrice INTEGER , quantity INTEGER, unitTag TEXT , image TEXT )');
   }
 }
