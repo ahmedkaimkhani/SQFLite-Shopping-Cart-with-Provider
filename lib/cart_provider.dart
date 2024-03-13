@@ -23,6 +23,23 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void addTotalPrice(double productPrice) {
+    _totalPrice = _totalPrice + productPrice;
+    _setPrefItems();
+    ChangeNotifier();
+  }
+
+  void removeTotalPrice(double productPrice) {
+    _totalPrice = _totalPrice - productPrice;
+    _setPrefItems();
+    ChangeNotifier();
+  }
+
+  double getTotalPrice() {
+    _getPrefItems();
+    return _totalPrice;
+  }
+
   void addCounter() {
     _counter++;
     _setPrefItems();
@@ -33,5 +50,10 @@ class CartProvider with ChangeNotifier {
     _counter--;
     _setPrefItems();
     ChangeNotifier();
+  }
+
+  int getCounter() {
+    _getPrefItems();
+    return _counter;
   }
 }
