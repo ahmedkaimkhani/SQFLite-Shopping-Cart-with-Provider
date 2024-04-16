@@ -3,6 +3,7 @@ import 'package:badges/badges.dart' as badges;
 import 'package:provider/provider.dart';
 import 'package:sqflite_shopping_cart_with_provider/cart_model.dart';
 import 'package:sqflite_shopping_cart_with_provider/cart_provider.dart';
+import 'package:sqflite_shopping_cart_with_provider/cart_view.dart';
 import 'package:sqflite_shopping_cart_with_provider/db_helper.dart';
 
 class ProductListScreen extends StatefulWidget {
@@ -56,19 +57,27 @@ class _ProductListScreenState extends State<ProductListScreen> {
         backgroundColor: Colors.deepPurple,
         centerTitle: true,
         actions: [
-          badges.Badge(
-            badgeContent: Consumer<CartProvider>(
-              builder: (context, value, child) {
-                return Text(
-                  value.getCounter().toString(),
-                  style: const TextStyle(color: Colors.white),
-                );
-              },
-            ),
-            badgeAnimation: const badges.BadgeAnimation.scale(),
-            child: const Icon(
-              Icons.shopping_bag_outlined,
-              color: Colors.white,
+          InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const CartView()));
+            },
+            child: Center(
+              child: badges.Badge(
+                badgeContent: Consumer<CartProvider>(
+                  builder: (context, value, child) {
+                    return Text(
+                      value.getCounter().toString(),
+                      style: const TextStyle(color: Colors.white),
+                    );
+                  },
+                ),
+                badgeAnimation: const badges.BadgeAnimation.scale(),
+                child: const Icon(
+                  Icons.shopping_bag_outlined,
+                  color: Colors.white,
+                ),
+              ),
             ),
           ),
           const SizedBox(
