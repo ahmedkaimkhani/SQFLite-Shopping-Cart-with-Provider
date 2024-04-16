@@ -80,11 +80,18 @@ class _CartViewState extends State<CartView> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        data.productName.toString(),
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            data.productName.toString(),
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 16),
+                                          ),
+                                          InkWell(
+                                              onTap: () {},
+                                              child: const Icon(Icons.delete))
+                                        ],
                                       ),
                                       const SizedBox(
                                         height: 5,
@@ -126,7 +133,14 @@ class _CartViewState extends State<CartView> {
                   );
                 } else {}
                 return Text('data');
-              }))
+              })),
+          Consumer<CartProvider>(builder: (context, value, child) {
+            return Column(children: [
+              ReusableWidget(
+                  title: 'Sub Total',
+                  value: r'$' + value.getTotalPrice().toStringAsFixed(2)),
+            ]);
+          })
         ],
       ),
     );
@@ -139,17 +153,21 @@ class ReusableWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.titleSmall,
-        ),
-        Text(
-          value,
-          style: Theme.of(context).textTheme.titleSmall,
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 04),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          Text(
+            value,
+            style: Theme.of(context).textTheme.titleSmall,
+          )
+        ],
+      ),
     );
   }
 }
