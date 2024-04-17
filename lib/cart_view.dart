@@ -4,6 +4,7 @@ import 'package:badges/badges.dart' as badges;
 
 import 'cart_model.dart';
 import 'cart_provider.dart';
+import 'db_helper.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -13,6 +14,8 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
+  DBHelper dbHelper = DBHelper();
+
   @override
   Widget build(BuildContext context) {
     final cart = Provider.of<CartProvider>(context);
@@ -89,7 +92,15 @@ class _CartViewState extends State<CartView> {
                                                 fontSize: 16),
                                           ),
                                           InkWell(
-                                              onTap: () {},
+                                              onTap: () {
+                                                dbHelper.delete(
+                                                    snapshot.data![index].id!);
+                                                cart.removeCounter();
+                                                cart.removeTotalPrice(
+                                                    double.parse(data
+                                                        .productPrice
+                                                        .toString()));
+                                              },
                                               child: const Icon(Icons.delete))
                                         ],
                                       ),
@@ -117,10 +128,30 @@ class _CartViewState extends State<CartView> {
                                           color: Colors.deepPurple,
                                           borderRadius:
                                               BorderRadius.circular(5)),
-                                      child: const Center(
-                                        child: Text(
-                                          'Add to cart',
-                                          style: TextStyle(color: Colors.white),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(4.0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            InkWell(
+                                                onTap: () {},
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: Colors.white,
+                                                )),
+                                            Text(
+                                              data.quantity.toString(),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            InkWell(
+                                                onTap: () {},
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: Colors.white,
+                                                )),
+                                          ],
                                         ),
                                       ),
                                     ),
@@ -135,11 +166,16 @@ class _CartViewState extends State<CartView> {
                 return Text('data');
               })),
           Consumer<CartProvider>(builder: (context, value, child) {
-            return Column(children: [
-              ReusableWidget(
-                  title: 'Sub Total',
-                  value: r'$' + value.getTotalPrice().toStringAsFixed(2)),
-            ]);
+            return Visibility(
+              visible: value.getTotalPrice().toStringAsFixed(2) == "0.00"
+                  ? false
+                  : true,
+              child: Column(children: [
+                ReusableWidget(
+                    title: 'Sub Total',
+                    value: r'$' + value.getTotalPrice().toStringAsFixed(2)),
+              ]),
+            );
           })
         ],
       ),
