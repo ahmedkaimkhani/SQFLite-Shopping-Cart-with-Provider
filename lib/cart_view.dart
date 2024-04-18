@@ -135,9 +135,48 @@ class _CartViewState extends State<CartView> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             InkWell(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  int quantity = data.quantity!;
+                                                  int price =
+                                                      data.initialPrice!;
+                                                  quantity--;
+                                                  int? newPrice =
+                                                      quantity * price;
+
+                                                  if (quantity > 0) {
+                                                    dbHelper
+                                                        .updateQuantity(
+                                                      Cart(
+                                                          id: data.id,
+                                                          productId: data
+                                                              .productId
+                                                              .toString(),
+                                                          productName:
+                                                              data.productName,
+                                                          initialPrice:
+                                                              data.initialPrice,
+                                                          productPrice:
+                                                              newPrice,
+                                                          quantity: quantity,
+                                                          unitTag: data.unitTag,
+                                                          image: data.image),
+                                                    )
+                                                        .then((value) {
+                                                      newPrice = 0;
+                                                      quantity = 0;
+                                                      cart.removeTotalPrice(
+                                                          double.parse(data
+                                                              .initialPrice!
+                                                              .toString()));
+                                                      print('successful');
+                                                    }).onError((error,
+                                                            stackTrace) {
+                                                      print(error.toString());
+                                                    });
+                                                  }
+                                                },
                                                 child: const Icon(
-                                                  Icons.add,
+                                                  Icons.remove,
                                                   color: Colors.white,
                                                 )),
                                             Text(
@@ -146,7 +185,41 @@ class _CartViewState extends State<CartView> {
                                                   color: Colors.white),
                                             ),
                                             InkWell(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  int quantity = data.quantity!;
+                                                  int price =
+                                                      data.initialPrice!;
+                                                  quantity++;
+                                                  int? newPrice =
+                                                      quantity * price;
+
+                                                  dbHelper
+                                                      .updateQuantity(
+                                                    Cart(
+                                                        id: data.id,
+                                                        productId: data
+                                                            .productId
+                                                            .toString(),
+                                                        productName:
+                                                            data.productName,
+                                                        initialPrice:
+                                                            data.initialPrice,
+                                                        productPrice: newPrice,
+                                                        quantity: quantity,
+                                                        unitTag: data.unitTag,
+                                                        image: data.image),
+                                                  )
+                                                      .then((value) {
+                                                    newPrice = 0;
+                                                    quantity = 0;
+                                                    cart.addTotalPrice(
+                                                        double.parse(data
+                                                            .initialPrice!
+                                                            .toString()));
+                                                    print('successful');
+                                                  }).onError((error,
+                                                          stackTrace) {});
+                                                },
                                                 child: const Icon(
                                                   Icons.add,
                                                   color: Colors.white,
