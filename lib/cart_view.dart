@@ -67,13 +67,25 @@ class _CartViewState extends State<CartView> {
                     AsyncSnapshot<List<Cart>> snapshot) {
                   if (snapshot.hasData) {
                     if (snapshot.data!.isEmpty) {
-                      return const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image(image: AssetImage('images/empty_cart.png')),
-                          Text('Explore Products'),
-                        ],
+                      return Expanded(
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Image(
+                                  image: AssetImage('images/empty_cart.png')),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                'Explore Products',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
+                              ),
+                            ],
+                          ),
+                        ),
                       );
                     } else {
                       return Expanded(
